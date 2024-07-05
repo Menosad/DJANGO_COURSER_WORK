@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+<a href="/admin/" class="btn-btn-primary">Админка</a>
+<h1>Hi</h1>
+{% for user in object_list %}
+<h3>{{ user.nickname }}</h3>
+<a href="{% url 'mailing:user_detail' user.pk %}" class="btn">детально</a>
+{% endfor %}
+</body>
+</html>
