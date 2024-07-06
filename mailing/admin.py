@@ -1,12 +1,5 @@
 from django.contrib import admin
-
-from mailing.models import User, Mailing
-
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('name', 'nickname')
-    list_filter = ('nickname',)
+from mailing.models import Mailing
 
 
 @admin.register(Mailing)

@@ -1,0 +1,11 @@
+<nav class="nav justify-content-center">
+  <a class="nav-link active" aria-current="page" href="/">Главная</a>
+  {% if user.is_authenticated %}
+    <form method="post" action="#">
+        {% csrf_token %}
+        <button class="btn" type="submit">выйти</button>
+    </form>
+    <a class="nav-link" href="#">выйти</a>
+    <a class="nav-link" href="#">Link</a>
+    {% endif %}
+</nav>

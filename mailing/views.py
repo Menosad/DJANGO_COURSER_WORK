@@ -1,19 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 
 from mailing.models import User, Mailing
 
 
-class UserListView(ListView):
-    model = User
+
+def index(request):
+    return render(request, 'mailing/index.html')
 
 
-class UserDetailView(DetailView):
-    model = User
+def add_mailing(request, pk):
+    user_name = User.objects.get(pk=pk).name
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        departure_date = request.POST.get('departure_date')
+        at_work = request.POST.get('at_work')
+        periodicity = request.POST.get('periodicity')
 
-
-class MailingCreateView(CreateView):
-    model = Mailing
-    fields = ('title', 'content', 'departure_date', 'periodicity')
-    success_url = reverse_lazy('mailing:user_list.html')
+    return render(request, 'mailing/mailing_create.html')
