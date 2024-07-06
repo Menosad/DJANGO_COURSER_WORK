@@ -21,7 +21,7 @@ class User(models.Model):
 
 class Mailing(models.Model):
     title = models.CharField(max_length=150, verbose_name='заголовок')
-    content = models.TextField(verbose_name='никнэйм')
+    content = models.TextField(verbose_name='содержание')
     departure_date = models.DateField(verbose_name='дата отправки')
     at_work = models.BooleanField(default=False, verbose_name='в работе')
     periodicity = models.DateField(verbose_name='периодичность', choices=periodicity_CHOICES)

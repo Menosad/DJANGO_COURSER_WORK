@@ -6,13 +6,12 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Пример на bootstrap 5: Простой одностраничный шаблон · Версия v5.3.1">
-	<title>{{ object.name }}</title>
+	<title>создание пользователя</title>
 
 	<link rel="canonical" href="https://bootstrap-4.ru/docs/5.3/examples/album/">
 
 	<!-- Bootstrap core CSS -->
 <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
 
     <style>
       .bd-placeholder-img {
@@ -151,25 +150,10 @@
     <div class="container">
         <div class="col">
                 <div class="card shadow-sm">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"
-                         preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>
-                        <rect width="100%" height="100%" fill="#55595c"/>
-                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ object.name }}</text>
-                    </svg>
-                    <div class="card-body">
-                        <p class="card-text">Статистика по рассылкам:</p>
-                        <p class="card-text">всего рассылок:</p>
-                        <p class="card-text">сейчас в работе:</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="{% url 'mailing:create_mailing' %}" type="button" class="btn btn-sm btn-outline-success">создать рассылку</a>
-                                <a href="" type="button" class="btn btn-sm btn-outline-success">список рассылок</a>
-                                <a href="{% url 'mailing:user_update' user.pk %}" type="button" class="btn btn-sm btn-outline-success">редактировать</a>
-                                <a href="{% url 'mailing:user_delete' user.pk %}" type="button" class="btn btn-sm btn-outline-success">удалить</a>
-                            </div>
-                        </div>
-                    </div>
+                    <form method="post" enctype="multipart/form-data"> {% csrf_token %}
+                      {{ form.as_p }}
+                      <button type="submit" class="btn-primary">Подтвердить</button>
+                    </form>
                 </div>
             </div>
     </div>
