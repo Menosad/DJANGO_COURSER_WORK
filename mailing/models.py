@@ -11,8 +11,8 @@ class Mailing(models.Model):
     content = models.TextField(verbose_name='содержание')
     departure_date = models.DateTimeField(verbose_name='дата и время отправки')
     at_work = models.BooleanField(default=False, verbose_name='в работе')
-    periodicity = models.DateField(verbose_name='периодичность', choices=periodicity_CHOICES, **NULLABLE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mailings', default=1)
+    periodicity = models.IntegerField(verbose_name='периодичность', choices=periodicity_CHOICES, **NULLABLE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mailings', **NULLABLE)
 
     def __str__(self):
         return f"{self.title}"

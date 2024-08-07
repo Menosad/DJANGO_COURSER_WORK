@@ -1,6 +1,6 @@
 {% extends 'mailing/base.html' %}
-{% block content%}
-    <div class="container">
+{% block content %}
+<div class="container">
         <div class="col">
                 <div class="card shadow-sm">
                     <form method="post" enctype="multipart/form-data"> {% csrf_token %}
@@ -10,9 +10,4 @@
                 </div>
             </div>
     </div>
-
-      </body>
-  <footer class="text-body-secondary py-5">
-  <div class="container">
-  </div>
 {% endblock %}

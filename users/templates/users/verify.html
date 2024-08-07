@@ -1,0 +1,12 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="col-12">
+    <div class="container">
+        <h3>На почту, указанную при регистрации отправленно письмо для подтверждения</h3>
+        <a href="{{ email_provider }}" class="btn btn-primary">перейти в почту</a>
+    </div>
+    </div>
+</div>
+{% endblock %}
