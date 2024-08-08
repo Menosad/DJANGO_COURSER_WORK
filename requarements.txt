@@ -4,3 +4,5 @@ pillow   10.4.0 Python Imaging Library (Fork)
 psycopg2 2.9.9  psycopg2 - Python-PostgreSQL Database Adapter
 sqlparse 0.5.0  A non-validating SQL parser.
 tzdata   2024.1 Provider of IANA time zone data
+django-apscheduler
+apscheduler

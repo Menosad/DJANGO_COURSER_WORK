@@ -1,27 +1,8 @@
-from django.forms import formset_factory
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
+from django.views.generic import ListView, DetailView, DeleteView
 
-from mailing.models import User, Mailing
-
-
-def edit_mailing(request, *args, **kwargs):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        content = request.POST.get('content')
-        departure_date = request.POST.get('departure_date').replace('/', '-', 3)
-        at_work = request.POST.get('at_work')
-        periodicity = request.POST.get('periodicity')
-        user = request.user
-        print(f'departure_date={departure_date, type(departure_date)}, periodicity={periodicity, type(periodicity)}')
-        mailing = Mailing.objects.create(title=title, content=content, departure_date=departure_date,
-                                         at_work=at_work,
-                                         periodicity=periodicity,
-                                         user=request.user)
-        mailing.save()
-        return mailing
+from mailing.models import Mailing
 
 
 class MailingListView(ListView):
@@ -57,7 +38,7 @@ def update_mailing(request, pk):
         obj.periodicity = request.POST.get('periodicity')
         obj.save()
         request.path = f'mailing-detail/{obj.pk}'
-        return redirect(to=f'/')
+        return redirect(to=request.path)
     return render(request, 'mailing/mailing_create.html')
 
 
@@ -68,11 +49,11 @@ def add_mailing(request):
         departure_date = request.POST.get('departure_date').replace('/', '-', 3)
         at_work = request.POST.get('at_work')
         periodicity = request.POST.get('periodicity')
-        user = request.user
-        print(f'departure_date={departure_date, type(departure_date)}, periodicity={periodicity, type(periodicity)}')
         mailing = Mailing.objects.create(title=title, content=content, departure_date=departure_date,
                                          at_work=at_work,
                                          periodicity=periodicity,
                                          user=request.user)
         mailing.save()
+        request.path = f'mailing-detail/{mailing.pk}'
+        return redirect(to=request.path)
     return render(request, 'mailing/mailing_create.html')

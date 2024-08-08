@@ -8,4 +8,20 @@ MAILING
 Приятного пользования!
 
 Инструкции для разработчиков:
+Перед началом работы обязательно настройте конфигурацию в файле /settings.py, добавив файл .env
+а в нем прописать:
+SECRET_KEY='тут секретный ключ джанго'
+DEBUG=True
+
+#DATABASE
+DATABASE_NAME='имя вашей базы данных'
+DATABASE_USER='имя пользователя базы данных'
+DATABASE_PASSWORD='пароль к базе данных'
+
+Я использовал yandex.ru
+#EMAIL HOST
+EMAIL_HOST_USER='созданный вами хост'
+EMAIL_HOST_PASSWORD='пароль для внешнего приложения'
+
 команда для создания админа: python manage.py csu
+команда для создания SECRET_KEY: python manage.py cskey

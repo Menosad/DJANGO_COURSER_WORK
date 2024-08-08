@@ -10,7 +10,7 @@ class Mailing(models.Model):
     title = models.CharField(max_length=150, verbose_name='заголовок')
     content = models.TextField(verbose_name='содержание')
     departure_date = models.DateTimeField(verbose_name='дата и время отправки')
-    at_work = models.BooleanField(default=False, verbose_name='в работе')
+    at_work = models.BooleanField(default=False, verbose_name='в работе', null=True)
     periodicity = models.IntegerField(verbose_name='периодичность', choices=periodicity_CHOICES, **NULLABLE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mailings', **NULLABLE)
 
