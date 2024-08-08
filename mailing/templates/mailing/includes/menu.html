@@ -6,7 +6,6 @@
         <button class="btn" type="submit">Выйти</button>
     </form>
     <a class="nav-link" href="{% url 'users:profile' user.pk %}">Профиль</a>
-    <a class="nav-link" href="{% url 'mailing:picker' %}">Пикер</a>
     {% else %}
     <a class="nav-link" href="{% url 'users:login' %}">Авторизация</a>
     <a class="nav-link" href="{% url 'users:register' %}">Регистрация</a>
