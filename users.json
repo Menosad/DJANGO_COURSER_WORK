@@ -1,0 +1,42 @@
+[
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$720000$xO8I0pjPcPUR2IPcBcJ13X$8HnWCEZkeE8nxR0WvM2aZGN+4ZHL1kc4uo55RK7fPdo=",
+        "last_login": "2024-08-10T19:36:12.384Z",
+        "is_superuser": true,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2024-07-29T04:00:04.569Z",
+        "username": "admin",
+        "email": "admin@mail.com",
+        "avatar": "",
+        "token": null,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "pk": 22,
+    "fields": {
+        "password": "pbkdf2_sha256$720000$amIRhPRSBy69UHPvB6saEW$XuOJNW8DB9vON2UHRbU2JYBgKpu6Jp43QF84Qui9bdk=",
+        "last_login": "2024-08-07T16:48:29.652Z",
+        "is_superuser": false,
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2024-08-03T18:01:18.144Z",
+        "username": "user1",
+        "email": "draignair@gmail.com",
+        "avatar": "",
+        "token": "bb8cb4e90e836c4f9c81b4eeca44fee1",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

@@ -18,6 +18,13 @@
                                 <h3 class="mb-0">{{ object.title }}</h3>
                                 <div class="mb-1 text-body-secondary">Успешных отправок: </div>
                                 <p class="card-text mb-auto">{{ object.content }}</p>
+                                <p class="card-text mb-auto">Дата отправки: {{ object.departure_date }}</p>
+                                <p class="card-text mb-auto">Периодичность: раз в {{ object.periodicity }}
+                                    {% if object.periodicity == 1 %}
+                                    день </p>
+                                    {% else %}
+                                    дней </p>
+                                    {% endif %}
                                 <a href="{% url 'mailing:edit' object.pk %}" class="icon-link gap-1 icon-link-hover stretched-link">
                                     редактировать
                                     <svg class="bi">

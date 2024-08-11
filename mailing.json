@@ -1,0 +1,38 @@
+[
+{
+    "model": "mailing.mailing",
+    "pk": 2,
+    "fields": {
+        "title": "Старый заголовок",
+        "content": "Не будет менять пока не утвердят",
+        "departure_date": "2024-08-08T20:00:00Z",
+        "at_work": true,
+        "periodicity": 7,
+        "user": null
+    }
+},
+{
+    "model": "mailing.mailing",
+    "pk": 3,
+    "fields": {
+        "title": "Мучаем его",
+        "content": "до конца идем",
+        "departure_date": "2024-08-15T20:00:00Z",
+        "at_work": true,
+        "periodicity": 1,
+        "user": null
+    }
+},
+{
+    "model": "mailing.mailing",
+    "pk": 5,
+    "fields": {
+        "title": "Тестовый заголовок1",
+        "content": "Пробуем записать рассылку",
+        "departure_date": "2024-08-15T07:00:00Z",
+        "at_work": true,
+        "periodicity": 1,
+        "user": 22
+    }
+}
+]
