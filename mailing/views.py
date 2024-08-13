@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, DeleteView
 
 from mailing.models import Mailing
@@ -36,10 +36,11 @@ def update_mailing(request, pk):
         obj.departure_date = request.POST.get('departure_date').replace('/', '-', 3)
         obj.at_work = request.POST.get('at_work')
         obj.periodicity = request.POST.get('periodicity')
+        obj.recipient_list = request.POST.get('recipient_list')
+
         obj.save()
-        request.path = f'mailing-detail/{obj.pk}'
-        return redirect(to=request.path)
-    return render(request, 'mailing/mailing_create.html')
+        return redirect(f'/mailing-detail/{pk}/')
+    return render(request, 'mailing/mailing_update.html', {'obj': obj})
 
 
 def add_mailing(request):
@@ -49,10 +50,13 @@ def add_mailing(request):
         departure_date = request.POST.get('departure_date').replace('/', '-', 3)
         at_work = request.POST.get('at_work')
         periodicity = request.POST.get('periodicity')
+        recipient_list = request.POST.get('recipient_list')
         mailing = Mailing.objects.create(title=title, content=content, departure_date=departure_date,
                                          at_work=at_work,
                                          periodicity=periodicity,
-                                         user=request.user)
+                                         user=request.user,
+                                         recipient_list=recipient_list
+                                         )
         mailing.save()
         request.path = f'mailing-detail/{mailing.pk}'
         return redirect(to=request.path)

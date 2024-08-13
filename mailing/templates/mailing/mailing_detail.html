@@ -18,6 +18,7 @@
                                 <h3 class="mb-0">{{ object.title }}</h3>
                                 <div class="mb-1 text-body-secondary">Успешных отправок: </div>
                                 <p class="card-text mb-auto">{{ object.content }}</p>
+                                <p class="card-text mb-auto">Список получателей: {{ object.recipient_list }}</p>
                                 <p class="card-text mb-auto">Дата отправки: {{ object.departure_date }}</p>
                                 <p class="card-text mb-auto">Периодичность: раз в {{ object.periodicity }}
                                     {% if object.periodicity == 1 %}
@@ -25,18 +26,8 @@
                                     {% else %}
                                     дней </p>
                                     {% endif %}
-                                <a href="{% url 'mailing:edit' object.pk %}" class="icon-link gap-1 icon-link-hover stretched-link">
-                                    редактировать
-                                    <svg class="bi">
-                                        <use xlink:href="#chevron-right"></use>
-                                    </svg>
-                                </a>
-                                <a href="{% url 'mailing:delete' object.pk %}" class="icon-link gap-1 icon-link-hover stretched-link">
-                                    удалить
-                                    <svg class="bi">
-                                        <use xlink:href="#chevron-right"></use>
-                                    </svg>
-                                </a>
+                                <a href="{% url 'mailing:edit' object.pk %}">редактировать</a>
+                                <a href="{% url 'mailing:delete' object.pk %}">удалить</a>
                             </div>
                             <div class="col-auto d-none d-lg-block">
                                 <svg class="bd-placeholder-img" width="200" height="250"

@@ -1,6 +1,5 @@
 import datetime
 import logging
-
 from django.conf import settings
 
 from apscheduler.schedulers.blocking import BlockingScheduler

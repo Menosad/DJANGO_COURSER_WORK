@@ -1,26 +1,25 @@
 {% extends 'mailing/base.html' %}
 {% block content %}
 <div class="row">
-    <div class="col-8 justify-content-center">
-        <div class="col-md-8" style="margin-left:18px">
+    <div class="col-12 justify-content-center">
+        <div class="col-md-12" style="margin-left:18px">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="input-group has-validation mb-3">
+                <div class="input-group mb-3">
                     <span class="input-group-text" id="title">Заголовок</span>
-                    <input name="title" type="text" class="form-control is-invalid" aria-label="Sizing example input"
-                           aria-describedby="inputGroup-sizing-default" required>
-
+                    <input name="title" type="text" class="form-control is-valid" aria-label="Sizing example input"
+                           aria-describedby="inputGroup-sizing-default" placeholder="{{ obj.title }}">
                 </div>
                 <div class="input-group">
                     <span class="input-group-text">Содержание</span>
-                    <textarea name="content" class="form-control" aria-label="content"></textarea>
+                    <textarea name="content" class="form-control" aria-label="content" placeholder="{{ obj.content }}"></textarea>
                 </div>
                 <p></p>
                 {% include 'mailing/includes/datetimepicker.html' %}
                 <p></p>
                 <span class="input-group-text">Периодичность</span>
 
-                <select name="periodicity" class="form-select is-invalid" aria-label="Default select example">
+                <select name="periodicity" class="form-select is-invalid" aria-label="Default select example" required>
 
                     <option value="1">раз в день</option>
                     <option value="7">раз в неделю</option>
@@ -29,7 +28,7 @@
                     <p></p>
            <div class="input-group">
                     <span class="input-group-text">Список получателей</span>
-                    <textarea name="recipient_list" class="form-control is-invalid" aria-label="recipient_list" placeholder="client@mail.ru, next_client@mail.ru"></textarea>
+                    <textarea name="recipient_list" class="form-control is-valid" aria-label="recipient_list" placeholder="{{ obj.recipient_list }}"></textarea>
                 </div>
                     <p></p>
                          <div class="form-check">

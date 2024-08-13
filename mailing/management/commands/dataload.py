@@ -5,46 +5,53 @@ from mailing.models import Mailing
 from users.models import User
 
 
+path_collection = {
+        "users": os.path.abspath('users.json'),
+        'mailing': os.path.abspath('mailing.json')
+}
+
+
+def get_users_list():
+    users_list = []
+    with open(path_collection['users'], 'r', encoding='utf-8') as file:
+        json_file = json.load(file)
+        for obj in json_file:
+            user_dict = dict(pk=obj.get('pk'),
+                             username=obj.get('fields').get('username'),
+                             email=obj.get('fields').get('email'),
+                             avatar=obj.get('fields').get('avatar'),
+                             token=obj.get('fields').get('token'),
+                             )
+            users_list.append(User(**user_dict))
+    return users_list
+
+
+def get_mailing_list():
+    mailing_list = []
+    with open(path_collection['mailing'], 'r', encoding='utf-8') as file:
+        json_dict = json.load(file)
+        for obj in json_dict:
+            user = User.objects.get(pk=obj.get('fields').get('user'))
+            mailing_dict = dict(pk=obj.get('pk'),
+                                title=obj.get('fields').get('title'),
+                                content=obj.get('fields').get('content'),
+                                departure_date=obj.get('fields').get('departure_date'),
+                                at_work=obj.get('fields').get('at_work'),
+                                periodicity=obj.get('fields').get('periodicity'),
+                                user=user,
+                                recipient_list=obj.get('fields').get('recipient_list'),
+                                )
+            mailing_list.append(Mailing(**mailing_dict))
+    return mailing_list
+
+
 class Command(BaseCommand):
-    path_list = [
-        os.path.abspath('users.json'),
-        os.path.abspath('mailing.json')
-    ]
 
     def handle(self, *args, **options):
-        Mailing.objects.all().delete()
         User.objects.all().delete()
-        result_tuple = ([], [])
-        for i, path in enumerate(Command.path_list):
-            with open(path, 'r', encoding='utf-8') as file:
-                json_file = json.load(file)
-                for obj in json_file:
-                    if obj.get('model') == 'users.user':
-                        user_dict = dict(pk=obj.get('pk'),
-                                         username=obj.get('fields').get('username'),
-                                         email=obj.get('fields').get('email'),
-                                         avatar=obj.get('fields').get('avatar'),
-                                         token=obj.get('fields').get('token'),
-                                         # is_superuser=obj.get('fields').get('is_superuser'),
-                                         # first_name=obj.get('fields').get('first_name'),
-                                         # is_staff=obj.get('fields').get('is_staff'),
-                                         # is_active=obj.get('fields').get('is_active'),
-                                         # date_joined=obj.get('fields').get('date_joined'),
-                                         # groups=obj.get('fields').get('groups'),
-                                         # user_permissions=obj.get('fields').get('user_permissions'),
-                                         )
-                        result_tuple[i].append(User(**user_dict))
-                        User.objects.bulk_create(result_tuple[i])
-                    elif obj.get('model') == 'mailing.mailing':
-                        user = User.objects.get(pk=obj.get('fields').get('user'))
-                        mailing_dict = dict(pk=obj.get('pk'),
-                                            title=obj.get('fields').get('title'),
-                                            content=obj.get('fields').get('content'),
-                                            departure_date=obj.get('fields').get('departure_date'),
-                                            at_work=obj.get('fields').get('at_work'),
-                                            periodicity=obj.get('fields').get('periodicity'),
-                                            user=user,
-                                            )
-                        result_tuple[i].append(Mailing(**mailing_dict))
-                        Mailing.objects.bulk_create(result_tuple[i])
-
+        Mailing.objects.all().delete()
+        users_list = get_users_list()
+        User.objects.bulk_create(users_list)
+        mailing_list = get_mailing_list()
+        Mailing.objects.bulk_create(mailing_list)
+        print('База данных обновлена успешно')

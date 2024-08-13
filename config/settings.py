@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
@@ -140,9 +141,9 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 #SEND_MAIL
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_PORT = '2525'
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = '465'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
