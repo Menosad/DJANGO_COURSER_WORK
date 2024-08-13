@@ -44,7 +44,6 @@ def get_mailing_list():
             mailing_list.append(Mailing(**mailing_dict))
     return mailing_list
 
-
 class Command(BaseCommand):
 
     def handle(self, *args, **options):

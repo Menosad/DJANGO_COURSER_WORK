@@ -18,10 +18,13 @@ DATABASE_NAME='имя вашей базы данных'
 DATABASE_USER='имя пользователя базы данных'
 DATABASE_PASSWORD='пароль к базе данных'
 
-Я использовал yandex.ru
+
 #EMAIL HOST
+EMAIL_HOST ='ваш хост рассылки'
+EMAIL_PORT ='порт хоста'
 EMAIL_HOST_USER='созданный вами хост'
 EMAIL_HOST_PASSWORD='пароль для внешнего приложения'
 
 команда для создания админа: python manage.py csu
 команда для создания SECRET_KEY: python manage.py cskey
+команда для загрузки базы данных: python manage.py dataload

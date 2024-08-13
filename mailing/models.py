@@ -17,20 +17,13 @@ class Mailing(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mailings', **NULLABLE)
     recipient_list = models.TextField(verbose_name='список получателей', **NULLABLE)
 
-    def send_mail(self):
+    def get_recipient_list(self):
         client_list = self.recipient_list.split(',')
         recipient_list = []
         for mail in client_list:
             edit = mail.replace(' ', '')
             recipient_list.append(edit)
-        print(f"{recipient_list}: тип{type(recipient_list)}")
-        print(f"{recipient_list[0]}: тип{type(recipient_list[0])}")
-        # send_mail(
-        #     subject=self.title,
-        #     message=self.content,
-        #     from_email=EMAIL_HOST_USER,
-        #     recipient_list=self.recipient_list,
-        #    )
+        return recipient_list
 
     def __str__(self):
         return f"{self.title}"
