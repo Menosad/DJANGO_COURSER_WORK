@@ -28,3 +28,4 @@ EMAIL_HOST_PASSWORD='пароль для внешнего приложения'
 команда для создания админа: python manage.py csu
 команда для создания SECRET_KEY: python manage.py cskey
 команда для загрузки базы данных: python manage.py dataload
+команда для запуска авторассылки: python manage.py mailing

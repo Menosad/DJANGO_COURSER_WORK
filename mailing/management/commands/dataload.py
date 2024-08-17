@@ -21,6 +21,9 @@ def get_users_list():
                              email=obj.get('fields').get('email'),
                              avatar=obj.get('fields').get('avatar'),
                              token=obj.get('fields').get('token'),
+                             password=obj.get('fields').get('password'),
+                             is_active=True if obj.get('fields').get('is_active') else False,
+                             is_superuser=True if obj.get('fields').get('is_superuser') else False,
                              )
             users_list.append(User(**user_dict))
     return users_list
@@ -44,8 +47,8 @@ def get_mailing_list():
             mailing_list.append(Mailing(**mailing_dict))
     return mailing_list
 
-class Command(BaseCommand):
 
+class Command(BaseCommand):
     def handle(self, *args, **options):
         User.objects.all().delete()
         Mailing.objects.all().delete()
@@ -53,4 +56,3 @@ class Command(BaseCommand):
         User.objects.bulk_create(users_list)
         mailing_list = get_mailing_list()
         Mailing.objects.bulk_create(mailing_list)
-        print('База данных обновлена успешно')

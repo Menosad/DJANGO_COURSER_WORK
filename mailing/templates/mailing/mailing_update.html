@@ -8,11 +8,11 @@
                 <div class="input-group mb-3">
                     <span class="input-group-text" id="title">Заголовок</span>
                     <input name="title" type="text" class="form-control is-valid" aria-label="Sizing example input"
-                           aria-describedby="inputGroup-sizing-default" placeholder="{{ obj.title }}">
+                           aria-describedby="inputGroup-sizing-default" value="{{ obj.title }}">
                 </div>
                 <div class="input-group">
                     <span class="input-group-text">Содержание</span>
-                    <textarea name="content" class="form-control" aria-label="content" placeholder="{{ obj.content }}"></textarea>
+                    <input type="text" name="content" class="form-control" aria-label="content" value="{{ obj.content }}">
                 </div>
                 <p></p>
                 {% include 'mailing/includes/datetimepicker.html' %}
@@ -28,14 +28,8 @@
                     <p></p>
            <div class="input-group">
                     <span class="input-group-text">Список получателей</span>
-                    <textarea name="recipient_list" class="form-control is-valid" aria-label="recipient_list" placeholder="{{ obj.recipient_list }}"></textarea>
+                    <input type="text" name="recipient_list" class="form-control is-valid" aria-label="recipient_list" value="{{ obj.recipient_list }}">
                 </div>
-                    <p></p>
-                         <div class="form-check">
-                    <input name="at_work" class="form-check-input" type="checkbox" value="True" id="at_work">
-                    <label class="form-check-label" for="at_work">
-                        В работе
-                    </label>
                     <p></p>
                     <button type="submit" class="btn btn-primary">Подтвердить</button>
             </form>

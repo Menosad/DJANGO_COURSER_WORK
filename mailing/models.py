@@ -1,3 +1,6 @@
+import datetime
+
+from django.conf import settings
 from django.core.mail import send_mail
 from django.db import models
 
@@ -33,8 +36,20 @@ class Mailing(models.Model):
             subject=self.title,
             message=self.content,
             from_email=EMAIL_HOST_USER,
-            recipient_list=self.recipient_list,
+            recipient_list=self.get_recipient_list(),
+            fail_silently=False,
            )
+
+    def activate(self, start_date):
+        from django.utils import timezone
+        tz = timezone.get_default_timezone()
+        stop_date = start_date + datetime.timedelta(days=30)
+        now = datetime.datetime.now(tz=tz)
+        if stop_date > now > start_date:
+            self.at_work = True
+        else:
+            self.at_work = False
+
 
     class Meta:
         verbose_name = 'рассылка'

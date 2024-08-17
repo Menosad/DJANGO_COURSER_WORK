@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, DeleteView
@@ -10,13 +12,11 @@ class MailingListView(ListView):
     model = Mailing
     template_name = 'mailing/index.html'
 
-    def get_queryset(self):
-        list_object = super().get_queryset()
-        if isinstance(self.request.user, int):
-            new_list = list_object.filter(user=self.request.user)
-            return new_list
-        else:
-            return list_object
+    # def get_queryset(self):
+    #     list_object = super().get_queryset()
+    #     user_pk = self.request.user.pk
+    #     new_list = list_object.filter(user=self.request.user.pk)
+    #     return new_list
 
 
 class MailingDetailView(DetailView):
@@ -37,7 +37,8 @@ def update_mailing(request, pk):
         obj.at_work = request.POST.get('at_work')
         obj.periodicity = request.POST.get('periodicity')
         obj.recipient_list = request.POST.get('recipient_list')
-
+        start_date = datetime.datetime.fromisoformat(obj.departure_date+'+03:00')
+        obj.activate(start_date)
         obj.save()
         return redirect(f'/mailing-detail/{pk}/')
     return render(request, 'mailing/mailing_update.html', {'obj': obj})
