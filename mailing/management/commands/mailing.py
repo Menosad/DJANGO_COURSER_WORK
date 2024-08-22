@@ -1,4 +1,6 @@
 import logging
+
+from apscheduler.schedulers.background import BackgroundScheduler
 from django.conf import settings
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -17,17 +19,17 @@ def delete_old_job_executions(max_age=86_400):
     DjangoJobExecution.objects.delete_old_job_executions(max_age)
 
 
-def scheduler_load():
-    scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
+def scheduler_load(name):
+    sched_dict = {'back': BackgroundScheduler, 'block': BlockingScheduler}
+    scheduler = sched_dict[name]()
     scheduler.add_jobstore(DjangoJobStore(), 'default')
     scheduler.add_job(delete_old_job_executions, 'interval',
                       days=1, id='delete_old_job', replace_existing=True)
     mailing_list = Mailing.objects.filter(at_work=True)
-    for i, mail in enumerate(mailing_list):
-        timing = mail.periodicity + i
+    for mail in mailing_list:
         scheduler.add_job(mail.send,
                           'interval',
-                          minutes=timing,
+                          minutes=mail.periodicity,
                           id=mail.title,
                           misfire_grace_time=300,
                           replace_existing=True)
@@ -37,7 +39,7 @@ def scheduler_load():
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        scheduler = scheduler_load()
+        scheduler = scheduler_load('block')
         try:
             logger.info("Starting scheduler...")
             scheduler.start()
