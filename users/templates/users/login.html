@@ -1,13 +1,40 @@
 {% extends 'mailing/base.html' %}
 {% block content %}
-<div class="container">
-        <div class="col">
+<div class="row">
+    <div class="col-12 justify-content-center">
+        <div class="row text-center">
+            <div class="col-12">
+                <h1>MAILING</h1>
+                <p>
+                <h3>Наш вебпроект помогает Вам рассылать письма по всему интернету!</h3></p>
+                <p>
+                <h3>Для первого шага Вам следует</h3>
+                <h3>Войти</h3>
+            </div>
+            <div class="col-6">
+
+            </div>
+        </div>
+        <div class="container">
+            <div class="col">
                 <div class="card shadow-sm">
                     <form method="post" enctype="multipart/form-data"> {% csrf_token %}
-                      {{ form.as_p }}
-                      <button type="submit" class="btn-primary">Подтвердить</button>
+                        {{ form.as_p }}
+                        <button type="submit" class="btn-primary">Подтвердить</button>
                     </form>
                 </div>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-12 justify-content-center">
+                <div class="row text-center">
+                    <div class="container">
+                    </a><h3> или</h3> <a href="{% url 'users:register' %}" class="btn btn-primary">
+                    <h3>Зарегистрироваться</h3></a>
+                </div>
+            </div>
+        </div>
+        </div>
     </div>
+</div>
 {% endblock %}

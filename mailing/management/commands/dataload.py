@@ -17,13 +17,13 @@ def get_users_list():
         json_file = json.load(file)
         for obj in json_file:
             user_dict = dict(pk=obj.get('pk'),
-                             username=obj.get('fields').get('username'),
                              email=obj.get('fields').get('email'),
                              avatar=obj.get('fields').get('avatar'),
                              token=obj.get('fields').get('token'),
                              password=obj.get('fields').get('password'),
                              is_active=True if obj.get('fields').get('is_active') else False,
                              is_superuser=True if obj.get('fields').get('is_superuser') else False,
+                             is_staff=True if obj.get('fields').get('is_staff') else False,
                              )
             users_list.append(User(**user_dict))
     return users_list

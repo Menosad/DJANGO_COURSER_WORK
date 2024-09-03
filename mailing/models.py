@@ -1,5 +1,7 @@
 import datetime
+import smtplib
 
+import pytz
 from django.conf import settings
 from django.core.mail import send_mail
 from django.db import models
@@ -12,9 +14,10 @@ periodicity_CHOICES = (('', 'раз в день'), ('', 'раз в неделю'
 
 
 class Mailing(models.Model):
-    title = models.CharField(max_length=150, verbose_name='заголовок')
+    title = models.CharField(max_length=150, verbose_name='заголовок', unique=True)
     content = models.TextField(verbose_name='содержание')
     departure_date = models.DateTimeField(verbose_name='дата и время отправки')
+    next_send_date = models.DateTimeField(verbose_name='дата следующей отправки', **NULLABLE)
     at_work = models.BooleanField(default=False, verbose_name='в работе', null=True)
     periodicity = models.IntegerField(verbose_name='периодичность', choices=periodicity_CHOICES, **NULLABLE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='mailings', **NULLABLE)
@@ -32,26 +35,57 @@ class Mailing(models.Model):
         return f"{self.title}"
 
     def send(self):
-        send_mail(
-            subject=self.title,
-            message=self.content,
-            from_email=EMAIL_HOST_USER,
-            recipient_list=self.get_recipient_list(),
-            fail_silently=False,
-           )
+        zone = pytz.timezone(settings.TIME_ZONE)
+        now = datetime.datetime.now(zone)
+        try:
+            server_response = send_mail(
+                subject=self.title,
+                message=self.content,
+                from_email=EMAIL_HOST_USER,
+                recipient_list=self.get_recipient_list(),
+                fail_silently=False,
+               )
+            MailingAttempt.objects.create(mailing=self, last_try=now, status=True, server_response=server_response)
+        except smtplib.SMTPException as error:
+            MailingAttempt.objects.create(mailing=self, last_try=now, status=False, server_response=error)
+        except ValueError as value_error:
+            MailingAttempt.objects.create(mailing=self, last_try=now, status=False, server_response=value_error)
 
     def activate(self, start_date):
-        from django.utils import timezone
-        tz = timezone.get_default_timezone()
         stop_date = start_date + datetime.timedelta(days=30)
+        offset = datetime.timedelta(hours=3)
+        tz = datetime.timezone(offset)
         now = datetime.datetime.now(tz=tz)
         if stop_date > now > start_date:
             self.at_work = True
         else:
             self.at_work = False
 
-
     class Meta:
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
         ordering = ('title',)
+
+
+class MailingAttempt(models.Model):
+    mailing = models.ForeignKey(Mailing, on_delete=models.CASCADE, verbose_name='рассылка')
+    last_try = models.DateTimeField(verbose_name='дата последней попытки', auto_now=True)
+    status = models.BooleanField(verbose_name='статус рассылки')
+    server_response = models.TextField(verbose_name='ответ сервера', **NULLABLE)
+
+    def __repr__(self):
+        return f"попытка {self.mailing.title}"
+
+
+class Client(models.Model):
+    name = models.CharField(max_length=150, verbose_name='имя клиента')
+    email = models.EmailField(verbose_name='почта клиента', unique=True)
+    user = models.ForeignKey(User, related_name='clients', on_delete=models.CASCADE)
+
+    def __repr__(self):
+        return f"{self.name} {self.email}"
+
+    class Meta:
+        verbose_name = 'клиент'
+        verbose_name_plural = 'клиенты'
+        ordering = ('name',)

@@ -6,12 +6,12 @@ NULLABLE = {'blank': True, 'null': True}
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=150, verbose_name='никнэйм', unique=True)
+    # username = models.CharField(max_length=150, verbose_name='никнэйм', unique=True)
     email = models.EmailField(verbose_name='электронная почта', unique=True)
     avatar = models.ImageField(verbose_name='аватар', **NULLABLE, upload_to='users')
     token = models.CharField(max_length=150, verbose_name='токен', **NULLABLE)
 
-    USERNAME_FIELD = 'username'
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     def __str__(self):
