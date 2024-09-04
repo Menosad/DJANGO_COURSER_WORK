@@ -37,12 +37,12 @@
         <div class="container">
                         <ul class="list-group list-group-flush">
                             <a href="{% url 'mailing:add_client' %}" class="btn btn-primary">добавить клиента</a>
-                            <li class="list-group-item"><h3>Список ваших клиентов</h3></li>
+                            <li class="list-group-item"><h3>список клиентов</h3></li>
                             {% if not client_list %}
-                            <li class="list-group-item">Пока пустой</li>
+                            <li class="list-group-item">пока пустой</li>
                             {% else %}
                             {% for client in client_list %}
-                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">{{ client.name }}</li>
                             {% endfor %}
                             {% endif %}
                         </ul>

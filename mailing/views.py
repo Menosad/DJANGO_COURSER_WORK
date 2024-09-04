@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, DeleteView, CreateView
 
+from mailing.forms import ClientMailingForm
 from mailing.models import Mailing, MailingAttempt, Client
 
 
@@ -66,8 +67,7 @@ def add_mailing(request):
                                          recipient_list=recipient_list
                                          )
         mailing.save()
-        request.path = f'mailing-detail/{mailing.pk}'
-        return redirect(to=request.path)
+        return redirect(f'/mailing-detail/{mailing.pk}/')
     return render(request, 'mailing/mailing_create.html')
 
 
@@ -77,11 +77,12 @@ class ClientDetail(DetailView):
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
-    fields = ('name', 'email')
+    form_class = ClientMailingForm
+    success_url = reverse_lazy('/')
 
     def form_valid(self, form):
-        object = form.save()
+        self.object = form.save()
         if form.is_valid():
-            object.user = self.request.user.pk
-            object.save()
+            self.object.user = self.request.user
+            self.object.save()
         return super().form_valid(form)
