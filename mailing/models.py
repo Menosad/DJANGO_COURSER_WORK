@@ -80,7 +80,7 @@ class MailingAttempt(models.Model):
 class Client(models.Model):
     name = models.CharField(max_length=150, verbose_name='имя клиента')
     email = models.EmailField(verbose_name='почта клиента', unique=True)
-    user = models.ForeignKey(User, related_name='clients', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='clients', on_delete=models.CASCADE, **NULLABLE)
 
     def __repr__(self):
         return f"{self.name} {self.email}"

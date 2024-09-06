@@ -1,13 +1,13 @@
 import json
 import os
 from django.core.management import BaseCommand
-from mailing.models import Mailing
+from mailing.models import Mailing, Client
 from users.models import User
 
-
 path_collection = {
-        "users": os.path.abspath('users.json'),
-        'mailing': os.path.abspath('mailing.json')
+    "users": os.path.abspath('users.json'),
+    'mailing': os.path.abspath('mailing.json'),
+    'client': os.path.abspath('client_data.json')
 }
 
 
@@ -48,11 +48,28 @@ def get_mailing_list():
     return mailing_list
 
 
+def get_client_list():
+    client_list = []
+    path_to_file = path_collection['client']
+    with open(path_to_file, 'r') as file:
+        readed_file = file.read()
+        json_file = json.loads(readed_file)
+        for client in json_file:
+            user = User.objects.get(pk=client.get('fields').get('user'))
+            client_dict = dict(name=client.get('fields').get('name'),
+                               email=client.get('fields').get('email'),
+                               user=user)
+            client_list.append(Client(**client_dict))
+    return client_list
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
         User.objects.all().delete()
         Mailing.objects.all().delete()
+        Client.objects.all().delete()
         users_list = get_users_list()
         User.objects.bulk_create(users_list)
         mailing_list = get_mailing_list()
         Mailing.objects.bulk_create(mailing_list)
+        client_list = get_client_list()
+        Client.objects.bulk_create(client_list)

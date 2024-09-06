@@ -1,0 +1,38 @@
+[
+{
+    "model": "mailing.client",
+    "pk": 8,
+    "fields": {
+        "name": "trosk",
+        "email": "ssl@mail.com",
+        "user": 1
+    }
+},
+{
+    "model": "mailing.client",
+    "pk": 9,
+    "fields": {
+        "name": "gloma",
+        "email": "fort@masl.tore",
+        "user": 1
+    }
+},
+{
+    "model": "mailing.client",
+    "pk": 10,
+    "fields": {
+        "name": "boka1",
+        "email": "gav@yandex.ru",
+        "user": 1
+    }
+},
+{
+    "model": "mailing.client",
+    "pk": 11,
+    "fields": {
+        "name": "mask",
+        "email": "draignair@gmail.com",
+        "user": 1
+    }
+}
+]

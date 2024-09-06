@@ -2,16 +2,23 @@
 {% block content %}
 <div class="row">
     <div class="col-12 justify-content-center">
-       <div class="container">
+        <div class="container">
             <div class="row">
-                <form method="post">
-                    {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Подтвердить</button>
-                </form>
+                <a href="{% url 'mailing:add_client' %}" class="btn btn-primary">добавить клиента</a>
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                            <div class="col p-4 d-flex flex-column position-static">
+                                <h3 class="mb-0">{{ object.name }}</h3>
+                                <p class="card-text mb-auto">{{ object.email }}</p>
+                                <a href="{% url 'mailing:client-update' object.pk %}">редактировать</a>
+                                <a href="{% url 'mailing:client-delete' object.pk %}">удалить</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-       </div>
-
+        </div>
     </div>
 </div>
 {% endblock %}

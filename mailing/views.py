@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, DeleteView, CreateView
+from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView
 
 from mailing.models import Mailing, MailingAttempt, Client
 
@@ -28,7 +28,7 @@ class MailingListView(LoginRequiredMixin, ListView):
         return new_list
 
 
-class MailingDetailView(DetailView):
+class MailingDetailView(LoginRequiredMixin, DetailView):
     model = Mailing
 
 
@@ -66,22 +66,35 @@ def add_mailing(request):
                                          recipient_list=recipient_list
                                          )
         mailing.save()
-        request.path = f'mailing-detail/{mailing.pk}'
-        return redirect(to=request.path)
+        return redirect(f'/mailing-detail/{mailing.pk}/')
     return render(request, 'mailing/mailing_create.html')
 
 
-class ClientDetail(DetailView):
+class ClientDetail(LoginRequiredMixin, DetailView):
     model = Client
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     fields = ('name', 'email')
+    success_url = reverse_lazy('mailing:main')
 
     def form_valid(self, form):
         object = form.save()
         if form.is_valid():
-            object.user = self.request.user.pk
+            object.user = self.request.user
             object.save()
         return super().form_valid(form)
+
+
+class ClientUpdate(UpdateView):
+    model = Client
+    fields = ('name', 'email', )
+
+    def get_success_url(self):
+        return reverse('mailing:client-detail', args=[self.kwargs.get('pk')])
+
+
+class ClientDelete(DeleteView):
+    model = Client
+    success_url = reverse_lazy('mailing:main')
