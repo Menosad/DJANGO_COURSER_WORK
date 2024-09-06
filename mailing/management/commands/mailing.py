@@ -39,7 +39,8 @@ def scheduler_load(name):
                       minutes=5,
                       id='send_mailing',
                       misfire_grace_time=10,
-                      replace_existing=True,)
+                      replace_existing=True,
+                      max_instances=5,)
     return scheduler
 
 
