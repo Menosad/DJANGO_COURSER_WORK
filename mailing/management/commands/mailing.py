@@ -30,10 +30,10 @@ def scheduler_load(name):
     sched_dict = {'back': BackgroundScheduler, 'block': BlockingScheduler}
     scheduler = sched_dict[name](timezone=settings.TIME_ZONE)
     scheduler.add_jobstore(DjangoJobStore(), 'default')
-    scheduler.add_job(delete_old_job_executions, 'interval',
-                      days=7, id='delete_old_job', replace_existing=True)
+    # scheduler.add_job(delete_old_job_executions, 'interval',
+    #                   days=7, id='delete_old_job', replace_existing=True)
     scheduler.add_job(activate_mailing, 'interval',
-                      minutes=1, id='activate', replace_existing=True)
+                      minutes=3, id='activate', replace_existing=True)
     scheduler.add_job(send_mailing,
                       'interval',
                       minutes=5,

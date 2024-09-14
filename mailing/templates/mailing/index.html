@@ -42,7 +42,7 @@
                             <li class="list-group-item">Пока пустой</li>
                             {% else %}
                             {% for client in client_list %}
-                            <li class="list-group-item"><a href="{% url 'mailing:client-detail' client.pk %}">{{ client.name }}</a></li>
+                            <li class="list-group-item"><a href="{% url 'mailing:client-detail' client.pk %}">{{ client.name }}</a>    {{ client.email }}</li>
                             {% endfor %}
                             {% endif %}
                         </ul>

@@ -6,9 +6,10 @@ from mailing.models import Mailing, Client
 
 def send_mailing():
     mailing_list = Mailing.objects.filter(at_work='True')
-    print(mailing_list)
     for mail in mailing_list:
-        client_list = Client.objects.filter(user=mail.user)
+        user_pk = mail.user.pk
+        client_list = Client.objects.filter(user__pk=user_pk)
+        print(f"попытка отправки{mail.title} по адресам {client_list}")
         send_mail(
             subject=mail.title,
             message=mail.content,

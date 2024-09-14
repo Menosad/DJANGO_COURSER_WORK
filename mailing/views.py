@@ -59,11 +59,9 @@ def add_mailing(request):
         start_date = request.POST.get('departure_date').replace('/', '-', 3)
         departure_date = datetime.datetime.fromisoformat(start_date + '+03:00')
         periodicity = request.POST.get('periodicity')
-        recipient_list = request.POST.get('recipient_list')
         mailing = Mailing.objects.create(title=title, content=content, departure_date=departure_date,
                                          periodicity=periodicity,
                                          user=request.user,
-                                         recipient_list=recipient_list
                                          )
         mailing.save()
         return redirect(f'/mailing-detail/{mailing.pk}/')
