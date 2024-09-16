@@ -54,14 +54,16 @@ class Mailing(models.Model):
     def activate(self, start_date):
         stop_date = start_date + datetime.timedelta(days=30)
         offset = datetime.timedelta(hours=3)
-        tz = datetime.timezone(offset)
-        now = datetime.datetime.now(tz=tz)
+        date = datetime.datetime.now(tz=datetime.timezone.utc)
+        now = date + offset
         if stop_date > now > start_date:
             self.at_work = True
+            self.save()
         else:
             self.at_work = False
+            self.save()
 
-    class Meta:
+class Meta:
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
         ordering = ('title',)

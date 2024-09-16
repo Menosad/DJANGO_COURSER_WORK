@@ -43,7 +43,7 @@ def update_mailing(request, pk):
         obj.title = request.POST.get('title')
         obj.content = request.POST.get('content')
         start_date = request.POST.get('departure_date').replace('/', '-', 3)
-        obj.departure_date = datetime.datetime.fromisoformat(start_date + '+03:00')
+        obj.departure_date = datetime.datetime.fromisoformat(start_date)
         obj.at_work = request.POST.get('at_work')
         obj.periodicity = request.POST.get('periodicity')
         obj.recipient_list = request.POST.get('recipient_list')
@@ -57,7 +57,7 @@ def add_mailing(request):
         title = request.POST.get('title')
         content = request.POST.get('content')
         start_date = request.POST.get('departure_date').replace('/', '-', 3)
-        departure_date = datetime.datetime.fromisoformat(start_date + '+03:00')
+        departure_date = datetime.datetime.fromisoformat(start_date)
         periodicity = request.POST.get('periodicity')
         mailing = Mailing.objects.create(title=title, content=content, departure_date=departure_date,
                                          periodicity=periodicity,

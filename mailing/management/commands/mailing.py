@@ -1,4 +1,3 @@
-import datetime
 import logging
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -23,22 +22,21 @@ def activate_mailing():
     for mail in Mailing.objects.all():
         start_date = mail.departure_date
         mail.activate(start_date)
-        mail.save()
 
 
 def scheduler_load(name):
     sched_dict = {'back': BackgroundScheduler, 'block': BlockingScheduler}
     scheduler = sched_dict[name](timezone=settings.TIME_ZONE)
     scheduler.add_jobstore(DjangoJobStore(), 'default')
-    # scheduler.add_job(delete_old_job_executions, 'interval',
-    #                   days=7, id='delete_old_job', replace_existing=True)
+    scheduler.add_job(delete_old_job_executions, 'interval',
+                      days=7, id='delete_old_job', replace_existing=True)
     scheduler.add_job(activate_mailing, 'interval',
-                      minutes=3, id='activate', replace_existing=True)
+                      minutes=1, id='activate', replace_existing=True)
     scheduler.add_job(send_mailing,
                       'interval',
-                      minutes=5,
+                      minutes=3,
                       id='send_mailing',
-                      misfire_grace_time=10,
+                      misfire_grace_time=30,
                       replace_existing=True,
                       max_instances=5,)
     return scheduler

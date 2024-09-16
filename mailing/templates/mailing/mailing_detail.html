@@ -17,8 +17,10 @@
                                 <h3 class="mb-0">{{ object.title }}</h3>
                                 <div class="mb-1 text-body-secondary">Успешных отправок: </div>
                                 <p class="card-text mb-auto">{{ object.content }}</p>
-                                <p class="card-text mb-auto">Список получателей: {{ object.recipient_list }}</p>
-                                <p class="card-text mb-auto">Дата отправки: {{ object.departure_date }}</p>
+                                <p class="card-text mb-auto">Дата запуска: {{ object.departure_date }}</p>
+                                {% if object.next_send_date %}
+                                <p class="card-text mb-auto">слудующая отправка: {{ object.next_send_date }}</p>
+                                {% endif %}
                                 <p class="card-text mb-auto">Периодичность: раз в {{ object.periodicity }}
                                     {% if object.periodicity == 1 %}
                                     день </p>
